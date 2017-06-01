@@ -1,6 +1,6 @@
 {
   "name": "flif-wasm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WebAssembly-compiled FLIF command line tool for Node.js v8+",
   "main": "lib/flif-wasm.js",
   "scripts": {
@@ -26,5 +26,8 @@
     "glob": "^7.1.2",
     "jake": "^8.0.15"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "bin": {
+    "flif-wasm": "./bin/flif-wasm"
+  }
 }

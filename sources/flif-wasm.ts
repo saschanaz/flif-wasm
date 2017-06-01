@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 
 import _libflifem = require("./flif.js")
 
@@ -13,7 +14,7 @@ async function main() {
 
     const convertedArgv = convertArgv();
 
-    libflifem.callMain(convertedArgv.slice(2))
+    libflifem.callMain(convertedArgv.slice(2));
 }
 main();
 
@@ -41,6 +42,18 @@ function mount() {
 }
 
 function convertArgv() {
-    // TODO: implement
-    return process.argv;
+    return process.argv.map((value, index) => {
+        if (index < 2 || value.startsWith("-")) {
+            return value;
+        }
+        const input = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
+
+        const match = input.match(/^([a-zA-z]):[/\\]/)
+        if (match) {
+            return path.join(`/mnt/${match[1].toLowerCase()}/`, input.slice(3)).replace(/\\/g, "/");
+        }
+        else {
+            return path.join("/mnt/", input);
+        }
+    });
 }

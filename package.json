@@ -29,5 +29,8 @@
   "dependencies": {},
   "bin": {
     "flif-wasm": "./bin/flif-wasm"
+  },
+  "engines": {
+    "node": ">=8.0.0"
   }
 }

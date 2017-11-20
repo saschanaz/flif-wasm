@@ -3,12 +3,10 @@ import * as path from "path";
 
 import _libflifem = require("./flif.js")
 
-let notifyReady: () => void;
-const tillReady = new Promise<void>(resolve => notifyReady = resolve);
-const libflifem = _libflifem({ wasmBinaryFile: __dirname + "/flif.wasm", onRuntimeInitialized: notifyReady });
+const libflifem = _libflifem({ wasmBinaryFile: __dirname + "/flif.wasm" });
 
 async function main() {
-    await tillReady;
+    await new Promise(resolve => libflifem.then(() => resolve()));
 
     mount();
 

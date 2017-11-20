@@ -26,6 +26,8 @@ interface EmscriptenModule {
 
     FS: FS;
     Runtime: Runtime;
+
+    then(resolve: (value?: EmscriptenModule) => void): EmscriptenModule
 }
 
 interface EmscriptenClass {

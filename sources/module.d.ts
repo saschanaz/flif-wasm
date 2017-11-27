@@ -49,6 +49,8 @@ interface FS {
     unlink(path: string): void;
     mount(type: any, options: any, mountPoint: string): void;
     mkdir(path: string): void;
+
+    currentPath: string
 }
 
 interface Runtime {

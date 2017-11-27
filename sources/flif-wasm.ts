@@ -37,6 +37,7 @@ function mount() {
     if (!windows) {
         libflifem.FS.mount(libflifem.FS.filesystems.NODEFS, { root: "/" }, "/mnt");
     }
+    libflifem.FS.currentPath = resolveToVirtual(process.cwd())
 }
 
 function convertArgv() {
@@ -44,14 +45,19 @@ function convertArgv() {
         if (index < 2 || value.startsWith("-")) {
             return value;
         }
-        const input = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
-
-        const match = input.match(/^([a-zA-z]):[/\\]/)
-        if (match) {
-            return path.join(`/mnt/${match[1].toLowerCase()}/`, input.slice(3)).replace(/\\/g, "/");
+        if (!path.isAbsolute(value)) {
+            return value;
         }
-        else {
-            return path.join("/mnt/", input);
-        }
+        return resolveToVirtual(value)
     });
+}
+
+function resolveToVirtual(absolutePath: string){
+    const match = absolutePath.match(/^([a-zA-z]):[/\\]/)
+    if (match) {
+        return path.join(`/mnt/${match[1].toLowerCase()}/`, absolutePath.slice(3)).replace(/\\/g, "/");
+    }
+    else {
+        return path.join("/mnt/", absolutePath);
+    }
 }

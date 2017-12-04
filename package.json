@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/SaschaNaz/flif-wasm#readme",
   "devDependencies": {
+    "@types/glob": "^5.0.33",
+    "@types/jake": "0.0.30",
     "@types/node": "^7.0.23",
     "glob": "^7.1.2",
     "jake": "^8.0.15"

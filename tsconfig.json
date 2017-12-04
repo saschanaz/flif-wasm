@@ -3,7 +3,9 @@
         "target": "es2017",
         "module": "commonjs",
         "outDir": "built/",
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "allowJs": true,
+        "checkJs": true
     },
     "compileOnSave": true
 }

@@ -43,6 +43,7 @@ for (const fileO of [appendDir("flif.o")].concat(filesO)) {
     });
 }
 
+/** @param {string} path  */
 function appendDir(path) {
     return `submodules/flif/src/${path}`;
 }
@@ -52,10 +53,14 @@ const jakeExecOptionBag = {
     printStderr: true
 };
 
+/**
+ * @param {string[]} cmds
+ * @return {Promise<void>}
+ */
 function asyncExec(cmds) {
     return new Promise((resolve, reject) => {
         try {
-            jake.exec(cmds, () => resolve(), jakeExecOptionBag)
+            jake.exec(cmds, resolve, jakeExecOptionBag)
         }
         catch (e) {
             reject(e);

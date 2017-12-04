@@ -11,6 +11,8 @@ const commandMisc = `-s ALLOW_MEMORY_GROWTH=1 -s EXTRA_EXPORTED_RUNTIME_METHODS=
 
 const libraryInclude = `-I ${appendDir("library/")}`
 
+const output = "built/flif.js"
+
 // copied file list on the upstream makefile
 // JSON.stringify((list).split(" "), null, 4)
 const filesH = [
@@ -78,11 +80,13 @@ function asyncExec(cmds) {
 }
 
 desc("Build FLIF command-line encoding/decoding tool");
-task("commandline", [appendDir("flif.o")].concat(filesO), async () => {
-    const command = `${cxx} ${flags} -s INVOKE_RUN=0 ${commandMisc} -std=c++11 ${exportName} ${ports} ${optimizations} -g0 -Wall ${filesO.join(' ')} ${appendDir("flif.o")} -o built/flif.js`;
+file(output, [appendDir("flif.o")].concat(filesO), async () => {
+    const command = `${cxx} ${flags} -s INVOKE_RUN=0 ${commandMisc} -std=c++11 ${exportName} ${ports} ${optimizations} -g0 -Wall ${filesO.join(' ')} ${appendDir("flif.o")} -o ${output}`;
     console.log(command);
     await asyncExec([command]);
 });
+
+task("commandline", [output]);
 
 desc("Build wrapper for FLIF command-line tool");
 task("wrapper", async () => {

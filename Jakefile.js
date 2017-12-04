@@ -15,22 +15,6 @@ const output = "built/flif.js"
 
 // copied file list on the upstream makefile
 // JSON.stringify((list).split(" "), null, 4)
-const filesH = [
-    ...glob.sync("maniac/*.hpp"),
-    ...glob.sync("maniac/*.cpp"),
-    ...glob.sync("image/*.hpp"),
-    ...glob.sync("transform/*.hpp"),
-    "flif-enc.hpp",
-    "flif-dec.hpp",
-    "common.hpp",
-    "flif_config.h",
-    "fileio.hpp",
-    "io.hpp",
-    "io.cpp",
-    "config.h",
-    "compiler-specific.hpp",
-    "../extern/lodepng.h"
-].map(item => appendDir(item)).join(' ');
 const filesO = [
     "maniac/chance.o",
     "maniac/symbol.o",
@@ -96,6 +80,4 @@ task("wrapper", async () => {
 });
 
 desc("Builds libflif.js");
-task("default", ["commandline", "wrapper"], () => {
-
-});
+task("default", ["commandline", "wrapper"]);

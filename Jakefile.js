@@ -29,24 +29,33 @@ const filesH = [
     "compiler-specific.hpp",
     "../extern/lodepng.h"
 ].map(item => appendDir(item)).join(' ');
-const filesCpp = [
-    "maniac/chance.cpp",
-    "maniac/symbol.cpp",
-    "image/crc32k.cpp",
-    "image/image.cpp",
-    "image/image-png.cpp",
-    "image/image-pnm.cpp",
-    "image/image-pam.cpp",
-    "image/image-rggb.cpp",
-    "image/image-metadata.cpp",
-    "image/color_range.cpp",
-    "transform/factory.cpp",
-    "common.cpp",
-    "flif-enc.cpp",
-    "flif-dec.cpp",
-    "io.cpp",
-    "../extern/lodepng.cpp"
-].map(item => appendDir(item)).join(' ');
+const filesO = [
+    "maniac/chance.o",
+    "maniac/symbol.o",
+    "image/crc32k.o",
+    "image/image.o",
+    "image/image-png.o",
+    "image/image-pnm.o",
+    "image/image-pam.o",
+    "image/image-rggb.o",
+    "image/image-metadata.o",
+    "image/color_range.o",
+    "transform/factory.o",
+    "common.o",
+    "flif-enc.o",
+    "flif-dec.o",
+    "io.o",
+    "../extern/lodepng.o"
+].map(item => appendDir(item));
+
+for (const fileO of [appendDir("flif.o")].concat(filesO)) {
+    const fileCpp = `${fileO.slice(0, -1)}cpp`;
+    file(fileO, [fileCpp], async () => {
+        const command = `${cxx} ${flags} -std=c++11 ${ports} ${optimizations} -g0 -Wall ${fileCpp} -o ${fileO}`;
+        console.log(command);
+        await asyncExec([command]);
+    });
+}
 
 function appendDir(path) {
     return `submodules/flif/src/${path}`;
@@ -69,8 +78,8 @@ function asyncExec(cmds) {
 }
 
 desc("Build FLIF command-line encoding/decoding tool");
-task("commandline", async () => {
-    const command = `${cxx} ${flags} -s INVOKE_RUN=0 ${commandMisc} -std=c++11 ${exportName} ${ports} ${optimizations} -g0 -Wall ${filesCpp} ${appendDir("flif.cpp")} -o built/flif.js`;
+task("commandline", [appendDir("flif.o")].concat(filesO), async () => {
+    const command = `${cxx} ${flags} -s INVOKE_RUN=0 ${commandMisc} -std=c++11 ${exportName} ${ports} ${optimizations} -g0 -Wall ${filesO.join(' ')} ${appendDir("flif.o")} -o built/flif.js`;
     console.log(command);
     await asyncExec([command]);
 });

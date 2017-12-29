@@ -2,10 +2,8 @@
     "compilerOptions": {
         "target": "es2017",
         "module": "commonjs",
-        "outDir": "built/",
-        "noImplicitAny": true,
-        "allowJs": true,
-        "checkJs": true
+        "outDir": "../built/",
+        "noImplicitAny": true
     },
     "compileOnSave": true
 }

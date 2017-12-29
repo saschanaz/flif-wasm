@@ -79,7 +79,7 @@ task("commandline", [output]);
 
 desc("Build wrapper for FLIF command-line tool");
 task("wrapper", async () => {
-    const command = "tsc";
+    const command = "tsc -p sources/tsconfig.json";
     console.log(command);
     await asyncExec([command]);
 });

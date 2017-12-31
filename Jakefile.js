@@ -7,7 +7,7 @@ const ports = "-s USE_LIBPNG=1 -s USE_ZLIB=1";
 const bind = "--bind wrapper/bind.cpp";
 const optimizations = "-D NDEBUG -O2 -ftree-vectorize";
 const flags = "-D LODEPNG_NO_COMPILE_PNG -D LODEPNG_NO_COMPILE_DISK";
-const commandMisc = `-s ALLOW_MEMORY_GROWTH=1 -s EXTRA_EXPORTED_RUNTIME_METHODS=['FS'] -s WASM=1`;
+const commandMisc = `-s ALLOW_MEMORY_GROWTH=1 -s EXTRA_EXPORTED_RUNTIME_METHODS=['FS'] -s WASM=1 -s NODERAWFS=1`;
 
 const libraryInclude = `-I ${appendDir("library/")}`
 

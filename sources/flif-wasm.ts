@@ -3,7 +3,7 @@ import * as path from "path";
 
 import _libflifem = require("./flif.js")
 
-const libflifem = _libflifem({ wasmBinaryFile: __dirname + "/flif.wasm" });
+const libflifem = _libflifem({ locateFile: filePath => path.resolve(__dirname, filePath) });
 
 async function main() {
     await new Promise(resolve => libflifem.then(() => resolve()));

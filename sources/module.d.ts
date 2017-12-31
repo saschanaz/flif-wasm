@@ -30,6 +30,10 @@ interface EmscriptenModule {
     then(resolve: (value?: EmscriptenModule) => void): EmscriptenModule
 }
 
+interface EmscriptenModuleInitializer {
+    locateFile(filePath: string) : string;
+}
+
 interface EmscriptenClass {
     delete(): void;
     clone(): this;

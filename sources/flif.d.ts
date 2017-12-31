@@ -1,2 +1,2 @@
-declare function _libflifem(options?: any): EmscriptenModule;
+declare function _libflifem(options?: EmscriptenModuleInitializer): EmscriptenModule;
 export = _libflifem;

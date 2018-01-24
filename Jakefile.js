@@ -86,3 +86,13 @@ task("wrapper", async () => {
 
 desc("Builds libflif.js");
 task("default", ["commandline", "wrapper"]);
+
+desc("clean");
+task("clean", () => {
+    for (const file of ["flif-wasm.js", "flif.js", "flif.wasm"]) {
+        try {
+            fs.unlinkSync(`built/${file}`);
+        }
+        catch (ignore) {}
+    }
+})

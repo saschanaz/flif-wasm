@@ -1,17 +1,13 @@
-const glob = require("glob");
-const fs = require("fs");
+const fs = require("fs").promises;
 
 const cxx = "em++";
 const exportName = "-s EXPORT_NAME='_libflifem' -s MODULARIZE=1";
 const ports = "-s USE_LIBPNG=1 -s USE_ZLIB=1";
-const bind = "--bind wrapper/bind.cpp";
 const optimizations = "-D NDEBUG -O2 -ftree-vectorize";
 const flags = "-D LODEPNG_NO_COMPILE_PNG -D LODEPNG_NO_COMPILE_DISK";
-const commandMisc = `-s ALLOW_MEMORY_GROWTH=1 -s WASM=1 -s NODERAWFS=1`;
+const commandMisc = `-s ALLOW_MEMORY_GROWTH=1 -s WASM=1 -s NODERAWFS=1 -s NODE_CODE_CACHING=1 -s WASM_ASYNC_COMPILATION=0 -s EXTRA_EXPORTED_RUNTIME_METHODS=["callMain"]`;
 
-const libraryInclude = `-I ${appendDir("library/")}`
-
-const output = "built/flif.js"
+const output = "lib/flif.js"
 
 // copied file list on the upstream makefile
 // JSON.stringify((list).split(" "), null, 4)
@@ -37,7 +33,7 @@ const filesO = [
 for (const fileO of [appendDir("flif.o")].concat(filesO)) {
     const fileCpp = `${fileO.slice(0, -1)}cpp`;
     file(fileO, [fileCpp], async () => {
-        const command = `${cxx} ${flags} -std=c++11 ${ports} ${optimizations} -g0 -Wall ${fileCpp} -o ${fileO}`;
+        const command = `${cxx} ${flags} -std=c++11 ${ports} ${optimizations} -g0 -Wall ${fileCpp} -c -o ${fileO}`;
         console.log(command);
         await asyncExec([command]);
     });
@@ -75,23 +71,14 @@ file(output, [appendDir("flif.o")].concat(filesO), async () => {
     await asyncExec([command]);
 });
 
-task("commandline", [output]);
-
-desc("Build wrapper for FLIF command-line tool");
-task("wrapper", async () => {
-    const command = "tsc -p sources/tsconfig.json";
-    console.log(command);
-    await asyncExec([command]);
-});
-
 desc("Builds libflif.js");
-task("default", ["commandline", "wrapper"]);
+task("default", [output]);
 
 desc("clean");
-task("clean", () => {
-    for (const file of ["flif-wasm.js", "flif.js", "flif.wasm"]) {
+task("clean", async () => {
+    for (const file of ["flif.js", "flif.wasm"]) {
         try {
-            fs.unlinkSync(`built/${file}`);
+            await fs.unlink(`lib/${file}`);
         }
         catch (ignore) {}
     }

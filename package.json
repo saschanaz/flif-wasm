@@ -4,11 +4,12 @@
   "description": "WebAssembly-compiled FLIF command line tool for Node.js v8+",
   "main": "lib/flif-wasm.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "jake"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SaschaNaz/flif-wasm.git"
+    "url": "git+https://github.com/saschanaz/flif-wasm.git"
   },
   "keywords": [
     "flif",
@@ -18,13 +19,12 @@
   "author": "Kagami Sascha Rosylight <saschanaz@outlook.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SaschaNaz/flif-wasm/issues"
+    "url": "https://github.com/saschanaz/flif-wasm/issues"
   },
-  "homepage": "https://github.com/SaschaNaz/flif-wasm#readme",
+  "homepage": "https://github.com/saschanaz/flif-wasm#readme",
   "devDependencies": {
-    "@types/glob": "^5.0.33",
-    "@types/jake": "0.0.30",
-    "@types/node": "^7.0.23",
+    "@types/jake": "0.0.31",
+    "@types/node": "^13.11.1",
     "glob": "^7.1.2",
     "jake": "^8.0.15"
   },
